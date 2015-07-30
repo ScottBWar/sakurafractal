@@ -41,8 +41,8 @@ function Branch(length, thickness, angle) {
 }
 
 Branch.prototype.tick = function() {
-    this.length += Math.random();
     if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.2) {
+        this.length += Math.random();
         var b = new Branch(Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 10) + 1))
         this.children.push(b);
         for (var i = this.children.length - 1; i >= 0; i--) {
