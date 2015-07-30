@@ -2,6 +2,7 @@ CURRENT_BRANCHES = 0;
 MAX_BRANCHES = 100;
 
 function Sakura(node) {
+    this.node = node;
     console.log("cherry tree planted");
     this.trunk = new Branch(1, 1, 1);
     this.tick = this.tick.bind(this);
@@ -14,12 +15,18 @@ function Sakura(node) {
 Sakura.prototype.tick = function() {
     requestAnimationFrame(this.tick);
     this.trunk.tick();
+    this.debugPrint();
 };
 
 Sakura.prototype.toString = function() {
     var stringified = "Trunk of cherry tree : " + String(this.trunk) + " tick" + String(this.tick);
     // console.log(stringified);
     return stringified;
+};
+
+Sakura.prototype.debugPrint = function(){
+    this.node.textContent = this.toString();
+    console.log(this.node.textContent)
 };
 
 function Branch(length, thickness, angle) {
@@ -50,6 +57,5 @@ Branch.prototype.toString = function() {
     for (var i = 0; i < this.children.length; i++) {
         stringified += (" " + this.children[i].toString());
     }
-    console.log(stringified);
     return stringified;
 };
