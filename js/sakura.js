@@ -30,11 +30,11 @@ Sakura.prototype.toString = function() {
 
 Sakura.prototype.debugPrint = function(){
     this.node.textContent = this.toString();
-    console.log(this.node.textContent);
+    // console.log(this.node.textContent);
 };
 
 Sakura.prototype.draw = function(){
-    document.body.innerHTML = "";
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 };
 
@@ -58,6 +58,7 @@ Branch.prototype.tick = function() {
             this.children[i].tick();
         }
         b.toString();
+        b.draw();
     }
 };
 
@@ -70,5 +71,6 @@ Branch.prototype.toString = function() {
 };
 
 Branch.prototype.draw = function(){
+    // console.log(begin.canvas);
  
 };
