@@ -18,7 +18,7 @@ function Sakura(node, canvas) {
 Sakura.prototype.tick = function() {
     requestAnimationFrame(this.tick);
     this.trunk.tick();
-    this.debugPrint();
+    // this.debugPrint();
     this.draw();
 };
 
@@ -71,6 +71,20 @@ Branch.prototype.toString = function() {
 };
 
 Branch.prototype.draw = function(){
-    // console.log(begin.canvas);
- 
+    var c = document.getElementById("canvas");
+    this.ctx = c;
+    this.ctx = canvas.getContext('2d');
+    console.log(this.ctx);
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, 0);
+    this.ctx.lineTo(300, 150);
+    this.ctx.lineWidth = 10;
+    this.ctx.stroke();
 };
+
+var c=document.getElementById("canvas2");
+var ctx = c.getContext('2d');
+ctx.beginPath();
+ctx.moveTo(0,0);
+ctx.lineTo(300,150);
+ctx.stroke();

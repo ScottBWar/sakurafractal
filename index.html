@@ -2,13 +2,16 @@
 <html>
 <head>
 	<script src="js/turtle.js"></script>
-	<script src="js/sakura.js"></script>
+<!-- 	<script src="js/sakura.js"></script> -->
   <meta charset="utf-8">
   <title>Sakura</title>
 </head>
 <body>
 <code style="whitespace: pre"id="codetag"></code>
-<canvas id="canvas"></canvas>
+<canvas id="canvas" style="border:5px solid black; width:300; height:150;"></canvas>
+<canvas id="canvas2" style="border:5px solid blue; width:300; height:150;float:right;"></canvas>
+<script src="js/sakura.js"></script>
+
  </body>
  <script>
  var begin = new Sakura(document.getElementById("codetag"),document.getElementById("canvas"));
