@@ -46,6 +46,7 @@ Sakura.prototype.debugPrint = function(){
 Sakura.prototype.draw = function(){
     // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+
 };
 
 function Branch(length, thickness, angle, color) {
@@ -62,15 +63,16 @@ function Branch(length, thickness, angle, color) {
 }
 
 Branch.prototype.tick = function() {
+
     for (var i = this.children.length - 1; i >= 0; i--) {
         this.children[i].tick();
     }
 
-    if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.3 && this.children.length < 100) {
+    if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.1 && this.children.length < 100) {
         this.length += Math.random();
 
         if(this.children.length < 3){
-        var b = new Branch(Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 5) + 1), Math.floor((Math.random() * 20) + 1), COLORS[Math.floor(Math.random() * COLORS.length)]);
+        var b = new Branch(Math.floor((Math.random() * 100) + 5), Math.floor((Math.random() * 5) + 1), Math.floor((Math.random() * 20) + 1), COLORS[Math.floor(Math.random() * COLORS.length)]);
         this.children.push(b);
         }
 
