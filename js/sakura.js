@@ -1,5 +1,5 @@
 CURRENT_BRANCHES = 0;
-MAX_BRANCHES = 100;
+MAX_BRANCHES = 1000;
 
 function Sakura(node, canvas) {
     canvas.width = canvas.clientWidth;
@@ -13,6 +13,7 @@ function Sakura(node, canvas) {
         this.tick(); // start animating
         this.toString();
         }
+        this.trunk.parentPosition = [50,50];
     this.trunk.turtle = new Turtle();
     this.trunk.turtle.pos = [100, 100];
 }
@@ -55,13 +56,14 @@ function Branch(length, thickness, angle) {
 Branch.prototype.tick = function() {
     if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.2) {
         this.length += Math.random();
-        var b = new Branch(Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 10) + 1));
+        var b = new Branch(Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 100) + 1));
         this.children.push(b);
         for (var i = this.children.length - 1; i >= 0; i--) {
             //Where the new turtle is created
             console.log(this.turtle.pos);
+            this.children[i].parentPosition = [this.turtle.pos[0], this.turtle.pos[1]];
             this.children[i].turtle  = this.turtle.spawn();
-            this.children[i].turtle.turnLeft(this.angle);
+            this.children[i].turtle.turnRight(this.angle);
             this.children[i].turtle.fwd(this.length);
             console.log(this.turtle.pos);
             //
@@ -87,9 +89,9 @@ Branch.prototype.draw = function(){
     this.ctx = c.getContext('2d');
     console.log(this.ctx);
     this.ctx.beginPath();
-    this.ctx.moveTo(0,0);
+    this.ctx.moveTo(this.parentPosition[0], this.parentPosition[1]);
     this.ctx.lineTo(this.turtle.pos[0], this.turtle.pos[1]);
-    this.ctx.lineWidth = 10;
+    this.ctx.lineWidth = this.thickness;
     this.ctx.stroke();
 };
 
