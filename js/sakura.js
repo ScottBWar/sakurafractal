@@ -1,5 +1,6 @@
 CURRENT_BRANCHES = 0;
-MAX_BRANCHES = 1000;
+MAX_BRANCHES = 5000;
+COLOR_ARRAY =[];
 
 function Sakura(node, canvas) {
     canvas.width = canvas.clientWidth;
@@ -7,15 +8,15 @@ function Sakura(node, canvas) {
     this.ctx = canvas.getContext('2d');
     // console.log(this.ctx);
     this.node = node;
-    this.trunk = new Branch(1, 1, 1);
+    this.trunk = new Branch(0, 10, 1);
     this.tick = this.tick.bind(this);
         if (CURRENT_BRANCHES < MAX_BRANCHES) {
         this.tick(); // start animating
         this.toString();
         }
-        this.trunk.parentPosition = [50,50];
+        this.trunk.parentPosition = [500,1000];
     this.trunk.turtle = new Turtle();
-    this.trunk.turtle.pos = [500, 250];
+    this.trunk.turtle.pos = [500, 800];
 }
 
 Sakura.prototype.tick = function() {
@@ -54,11 +55,11 @@ function Branch(length, thickness, angle) {
 }
 
 Branch.prototype.tick = function() {
-    if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.2 && this.children.length < 100) {
+    if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.3 && this.children.length < 100) {
         this.length += Math.random();
 
-        if(this.children.length < 4){
-        var b = new Branch(Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 100) + 1));
+        if(this.children.length < 3){
+        var b = new Branch(Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 5) + 1), Math.floor((Math.random() * 14) + 1));
         this.children.push(b);
         }
 
@@ -68,7 +69,7 @@ Branch.prototype.tick = function() {
             this.children[i].parentPosition = [this.turtle.pos[0], this.turtle.pos[1]];
             this.children[i].turtle  = this.turtle.spawn();
 
-            if(Math.random() < 0.5){
+            if(Math.random() < 0.3){
             this.children[i].turtle.turnRight(this.angle);
             }
             else{
