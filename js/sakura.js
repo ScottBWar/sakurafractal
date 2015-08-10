@@ -5,7 +5,7 @@ function Sakura(node, canvas) {
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
     this.ctx = canvas.getContext('2d');
-    console.log(this.ctx);
+    // console.log(this.ctx);
     this.node = node;
     this.trunk = new Branch(1, 1, 1);
     this.tick = this.tick.bind(this);
@@ -13,6 +13,8 @@ function Sakura(node, canvas) {
         this.tick(); // start animating
         this.toString();
         }
+    this.trunk.turtle = new Turtle();
+    this.trunk.turtle.pos = [100, 100];
 }
 
 Sakura.prototype.tick = function() {
@@ -34,7 +36,7 @@ Sakura.prototype.debugPrint = function(){
 };
 
 Sakura.prototype.draw = function(){
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 };
 
@@ -46,6 +48,7 @@ function Branch(length, thickness, angle) {
         this.angle = angle;
         this.children = [];
         this.tree = Sakura;
+
     } else {}
 }
 
@@ -55,7 +58,15 @@ Branch.prototype.tick = function() {
         var b = new Branch(Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 10) + 1));
         this.children.push(b);
         for (var i = this.children.length - 1; i >= 0; i--) {
+            //Where the new turtle is created
+            console.log(this.turtle.pos);
+            this.children[i].turtle  = this.turtle.spawn();
+            this.children[i].turtle.turnLeft(this.angle);
+            this.children[i].turtle.fwd(this.length);
+            console.log(this.turtle.pos);
+            //
             this.children[i].tick();
+
         }
         b.toString();
         b.draw();
@@ -73,11 +84,11 @@ Branch.prototype.toString = function() {
 Branch.prototype.draw = function(){
     var c = document.getElementById("canvas");
     this.ctx = c;
-    this.ctx = canvas.getContext('2d');
+    this.ctx = c.getContext('2d');
     console.log(this.ctx);
     this.ctx.beginPath();
-    this.ctx.moveTo(0, 0);
-    this.ctx.lineTo(300, 150);
+    this.ctx.moveTo(0,0);
+    this.ctx.lineTo(this.turtle.pos[0], this.turtle.pos[1]);
     this.ctx.lineWidth = 10;
     this.ctx.stroke();
 };
@@ -87,4 +98,5 @@ var ctx = c.getContext('2d');
 ctx.beginPath();
 ctx.moveTo(0,0);
 ctx.lineTo(300,150);
+ctx.lineWidth = 10;
 ctx.stroke();
