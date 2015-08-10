@@ -1,11 +1,11 @@
 CURRENT_BRANCHES = 0;
-MAX_BRANCHES = 100;
+MAX_BRANCHES = 1000;
 
 function Sakura(node, canvas) {
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
     this.ctx = canvas.getContext('2d');
-    console.log(this.ctx);
+    // console.log(this.ctx);
     this.node = node;
     this.trunk = new Branch(1, 1, 1);
     this.tick = this.tick.bind(this);
@@ -13,12 +13,15 @@ function Sakura(node, canvas) {
         this.tick(); // start animating
         this.toString();
         }
+        this.trunk.parentPosition = [50,50];
+    this.trunk.turtle = new Turtle();
+    this.trunk.turtle.pos = [500, 250];
 }
 
 Sakura.prototype.tick = function() {
     requestAnimationFrame(this.tick);
     this.trunk.tick();
-    this.debugPrint();
+    // this.debugPrint();
     this.draw();
 };
 
@@ -34,7 +37,7 @@ Sakura.prototype.debugPrint = function(){
 };
 
 Sakura.prototype.draw = function(){
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 };
 
@@ -46,16 +49,37 @@ function Branch(length, thickness, angle) {
         this.angle = angle;
         this.children = [];
         this.tree = Sakura;
+
     } else {}
 }
 
 Branch.prototype.tick = function() {
-    if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.2) {
+    if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.2 && this.children.length < 100) {
         this.length += Math.random();
-        var b = new Branch(Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 10) + 1));
+
+        if(this.children.length < 4){
+        var b = new Branch(Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 10) + 1), Math.floor((Math.random() * 100) + 1));
         this.children.push(b);
+        }
+
         for (var i = this.children.length - 1; i >= 0; i--) {
+            //Where the new turtle is created
+            console.log(this.turtle.pos);
+            this.children[i].parentPosition = [this.turtle.pos[0], this.turtle.pos[1]];
+            this.children[i].turtle  = this.turtle.spawn();
+
+            if(Math.random() < 0.5){
+            this.children[i].turtle.turnRight(this.angle);
+            }
+            else{
+            this.children[i].turtle.turnLeft(this.angle);
+            }
+
+            this.children[i].turtle.fwd(this.length);
+            console.log(this.turtle.pos);
+            //
             this.children[i].tick();
+
         }
         b.toString();
         b.draw();
@@ -71,6 +95,13 @@ Branch.prototype.toString = function() {
 };
 
 Branch.prototype.draw = function(){
-    // console.log(begin.canvas);
- 
+    var c = document.getElementById("canvas");
+    this.ctx = c;
+    this.ctx = c.getContext('2d');
+    console.log(this.ctx);
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.parentPosition[0], this.parentPosition[1]);
+    this.ctx.lineTo(this.turtle.pos[0], this.turtle.pos[1]);
+    this.ctx.lineWidth = this.thickness;
+    this.ctx.stroke();
 };
