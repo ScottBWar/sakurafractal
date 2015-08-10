@@ -82,7 +82,7 @@ Branch.prototype.tick = function() {
             this.children[i].parentPosition = [this.turtle.pos[0], this.turtle.pos[1]];
             this.children[i].turtle  = this.turtle.spawn();
 
-            if(Math.random() < 0.3){
+            if(Math.random() < 0.5){
             this.children[i].turtle.turnRight(this.angle);
             }
             else{
