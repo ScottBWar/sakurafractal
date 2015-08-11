@@ -1,12 +1,12 @@
 CURRENT_BRANCHES = 0;
-MAX_BRANCHES = 5000;
+MAX_BRANCHES = 900;
 COLORS = [
                 "#2484c1", "#65a620", "#7b6888", "#a05d56", "#961a1a", "#d8d23a", "#e98125", "#d0743c", "#635222", "#6ada6a",
                 "#0c6197", "#7d9058", "#207f33", "#44b9b0", "#bca44a", "#e4a14b", "#a3acb2", "#8cc3e9", "#69a6f9", "#5b388f",
                 "#546e91", "#8bde95", "#d2ab58", "#273c71", "#98bf6e", "#4daa4b", "#98abc5", "#cc1010", "#31383b", "#006391",
                 "#c2643f", "#b0a474", "#a5a39c", "#a9c2bc", "#22af8c", "#7fcecf", "#987ac6", "#3d3b87", "#b77b1c", "#c9c2b6",
                 "#807ece", "#8db27c", "#be66a2", "#9ed3c6", "#00644b", "#005064", "#77979f", "#77e079", "#9c73ab", "#1f79a7"
-            ]
+            ];
 
 function Sakura(node, canvas) {
     canvas.width = canvas.clientWidth;
@@ -14,22 +14,22 @@ function Sakura(node, canvas) {
     this.ctx = canvas.getContext('2d');
     // console.log(this.ctx);
     this.node = node;
-    this.trunk = new Branch(0, 10, 1, 'brown');
+    this.trunk = new Branch(0, 7, 1, '#49311C');
     this.tick = this.tick.bind(this);
         if (CURRENT_BRANCHES < MAX_BRANCHES) {
         this.tick(); // start animating
         this.toString();
         }
-        this.trunk.parentPosition = [500,1000];
+        this.trunk.parentPosition = [400,800];
     this.trunk.turtle = new Turtle();
-    this.trunk.turtle.pos = [500, 900];
+    this.trunk.turtle.pos = [400, 700];
 }
 
 Sakura.prototype.tick = function() {
     requestAnimationFrame(this.tick);
     this.trunk.tick();
     // this.debugPrint();
-    this.draw();
+    // this.draw();
 };
 
 Sakura.prototype.toString = function() {
@@ -64,15 +64,17 @@ function Branch(length, thickness, angle, color) {
 
 Branch.prototype.tick = function() {
 
-    for (var i = this.children.length - 1; i >= 0; i--) {
-        this.children[i].tick();
+    for (var a = this.children.length - 1; a >= 0; a--) {
+        this.children[a].tick();
     }
 
-    if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.1 && this.children.length < 100) {
-        this.length += Math.random();
+    if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.005 && this.children.length < 100) {
+        this.length += (Math.floor(Math.random() * 10) + 1);
+        this.width += (Math.floor(Math.random() * 100) + 1);
+        this.draw();
 
-        if(this.children.length < 3){
-        var b = new Branch(Math.floor((Math.random() * 100) + 5), Math.floor((Math.random() * 5) + 1), Math.floor((Math.random() * 20) + 1), COLORS[Math.floor(Math.random() * COLORS.length)]);
+        if(this.children.length < 2){
+        var b = new Branch(Math.floor((Math.random() * 80) + 10), Math.floor((Math.random() * 4) + 3), Math.floor((Math.random() * 30) + 1), '#49311C');
         this.children.push(b);
         }
 
@@ -117,5 +119,6 @@ Branch.prototype.draw = function(){
     this.ctx.lineTo(this.turtle.pos[0], this.turtle.pos[1]);
     this.ctx.lineWidth = this.thickness;
     this.ctx.strokeStyle = this.color;
+    // this.ctx.quadraticCurveTo(this.parentPosition[0], this.parentPosition[1]-Math.floor(Math.random()*10+1), this.turtle.pos[0], this.turtle.pos[1]);
     this.ctx.stroke();
 };
