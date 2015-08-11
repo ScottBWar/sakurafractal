@@ -110,3 +110,16 @@ Branch.prototype.draw = function() {
     // this.ctx.quadraticCurveTo(this.parentPosition[0], this.parentPosition[1]-Math.floor(Math.random()*10+1), this.turtle.pos[0], this.turtle.pos[1]);
     this.ctx.stroke();
 };
+
+function Blossom(x,y) {
+    this.x = x;
+    this.y = y;
+    
+}
+
+Blossom.prototype.draw = function(){
+
+
+};
+
+
