@@ -118,8 +118,16 @@ function Blossom(x,y) {
 }
 
 Blossom.prototype.draw = function(){
-
-
+    var c = document.getElementById("canvas");
+    this.ctx = c;
+    this.ctx = c.getContext('2d');
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI, false);
+    this.ctx.fillStyle = 'pink';
+    this.ctx.fill();
+    this.ctx.lineWidth = 1;
+    this.ctx.strokeStyle = 'white';
+    this.ctx.stroke();
 };
 
 
