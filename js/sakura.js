@@ -1,5 +1,5 @@
 CURRENT_BRANCHES = 0;
-MAX_BRANCHES = 900;
+MAX_BRANCHES = 500;
 COLORS = [
                 "#2484c1", "#65a620", "#7b6888", "#a05d56", "#961a1a", "#d8d23a", "#e98125", "#d0743c", "#635222", "#6ada6a",
                 "#0c6197", "#7d9058", "#207f33", "#44b9b0", "#bca44a", "#e4a14b", "#a3acb2", "#8cc3e9", "#69a6f9", "#5b388f",
