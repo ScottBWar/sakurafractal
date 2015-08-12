@@ -1,5 +1,5 @@
 CURRENT_BRANCHES = 0;
-MAX_BRANCHES = 500;
+MAX_BRANCHES = 350;
 COLORS = [
     "#2484c1", "#65a620", "#7b6888", "#a05d56", "#961a1a", "#d8d23a", "#e98125", "#d0743c", "#635222", "#6ada6a",
     "#0c6197", "#7d9058", "#207f33", "#44b9b0", "#bca44a", "#e4a14b", "#a3acb2", "#8cc3e9", "#69a6f9", "#5b388f",
@@ -78,7 +78,7 @@ Branch.prototype.tick = function() {
 
 
         if (this.children.length < 2) {
-            var branch = new Branch(Math.floor((Math.random() * 80) + 10), Math.floor((Math.random() * 2) + 1), Math.floor((Math.random() * 30) + 1), '#49311C');
+            var branch = new Branch(Math.floor((Math.random() * 100) + 10), Math.floor((Math.random() * 1) + 1), Math.floor((Math.random() * 31) + 1), '#49311C');
             this.children.push(branch);
         }
 
@@ -99,7 +99,7 @@ Branch.prototype.tick = function() {
     }
     this.draw();
 
-    if (this.blossoms.length < 3 && Math.random() < 0.05) {
+    if ( CURRENT_BRANCHES > 100 && this.blossoms.length < 3 && Math.random() < 0.09) {
         var blossom = new Blossom(this.parentPosition[0], this.parentPosition[1], this.turtle.pos[0], this.turtle.pos[1]);
         // console.log(blossom)
         this.blossoms.push(blossom);
