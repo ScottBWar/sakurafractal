@@ -54,7 +54,7 @@ function Branch(length, thickness, angle, color) {
         this.children = [];
         this.tree = Sakura;
         this.color = color;
-        this.parentPosition = [400,800];
+        this.parentPosition = [400, 800];
         this.turtle = new Turtle();
         this.turtle.pos = [400, 700];
         this.blossoms = [];
@@ -64,15 +64,10 @@ function Branch(length, thickness, angle, color) {
 
 Branch.prototype.tick = function() {
     // console.log(this.blossoms);
-   if(CURRENT_BRANCHES < MAX_BRANCHES){
+    if (CURRENT_BRANCHES < MAX_BRANCHES) {
         this.length += Math.random();
         this.thickness += (Math.random() - 0.4);
         this.draw();
-    if(this.blossoms.length < 5 && Math.random() < 0.05){
-        var blossom = new Blossom(this.turtle.pos[0],this.turtle.pos[1]);
-        this.blossoms.push(blossom);
-    }
-
     }
 
     for (var a = this.children.length - 1; a >= 0; a--) {
@@ -80,7 +75,7 @@ Branch.prototype.tick = function() {
     }
 
     if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.05) {
-        
+
 
         if (this.children.length < 2) {
             var branch = new Branch(Math.floor((Math.random() * 80) + 10), Math.floor((Math.random() * 2) + 1), Math.floor((Math.random() * 30) + 1), '#49311C');
@@ -98,15 +93,22 @@ Branch.prototype.tick = function() {
             }
             this.children[i].turtle.fwd(this.length);
         }
-        if (branch){
-        branch.draw();
+        if (branch) {
+            branch.draw();
         }
     }
     this.draw();
 
-    for(var b = 0; b < this.blossoms.length; b++){
-        this.blossoms[b].draw();
+    if (this.blossoms.length < 3 && Math.random() < 0.05) {
+        var blossom = new Blossom(this.parentPosition[0], this.parentPosition[1], this.turtle.pos[0], this.turtle.pos[1]);
+        // console.log(blossom)
+        this.blossoms.push(blossom);
+        for (var b = 0; b < this.blossoms.length; b++) {
+            this.blossoms[b].draw();
+        }
     }
+
+
 
 
 };
@@ -132,22 +134,30 @@ Branch.prototype.draw = function() {
     this.ctx.stroke();
 };
 
-function Blossom(x,y) {
-    this.x = x;
-    this.y = y;
+function Blossom(x1, y1, x2, y2) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
 }
 
-Blossom.prototype.draw = function(){
+Blossom.prototype.draw = function() {
     var c = document.getElementById("canvas");
     this.ctx = c;
     this.ctx = c.getContext('2d');
     this.ctx.beginPath();
-    this.ctx.arc(this.x, this.y, 5, 0, 2 * Math.PI, false);
-    this.ctx.fillStyle = 'pink';
+    rPoint = randomPoint(this.x1, this.y1, this.x2, this.y2);
+    this.ctx.arc(rPoint[0], rPoint[1], 6, 0, 2 * Math.PI, false);
+    this.ctx.fillStyle = '#ff849c';
     this.ctx.fill();
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = 'white';
     this.ctx.stroke();
 };
 
-
+var randomPoint = function(x1, y1, x2, y2) {
+    var randFloat = Math.random();
+    var xPoint = x1 + (x2 - x1) * randFloat;
+    var yPoint = y1 + (y2 - y1) * randFloat;
+    return [xPoint, yPoint];
+};
