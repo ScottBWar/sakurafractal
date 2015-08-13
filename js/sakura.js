@@ -13,7 +13,7 @@ function Sakura(node, canvas) {
     canvas.height = canvas.clientHeight;
     this.ctx = canvas.getContext('2d');
     this.node = node;
-    this.trunk = new Branch(0, 4, 1, '#49311C');
+    this.trunk = new Branch(0, 3.8, 1, '#49311C');
     this.trunk.blossoms = [];
     this.tick = this.tick.bind(this);
     if (CURRENT_BRANCHES < MAX_BRANCHES) {
@@ -58,11 +58,13 @@ function Branch(length, thickness, angle, color) {
         this.turtle = new Turtle();
         this.turtle.pos = [400, 700];
         this.blossoms = [];
+        this.ticks = 0;
 
     }
 }
 
 Branch.prototype.tick = function() {
+    this.ticks += 1;
     // console.log(this.blossoms);
     if (CURRENT_BRANCHES < MAX_BRANCHES) {
         this.length += Math.random();
@@ -99,7 +101,7 @@ Branch.prototype.tick = function() {
     }
     this.draw();
 
-    if ( CURRENT_BRANCHES > 100 && this.blossoms.length < 3 && Math.random() < 0.09) {
+    if ( CURRENT_BRANCHES > 100 && this.blossoms.length < 4 && Math.random() < 0.09 && this.ticks < 80) {
         var blossom = new Blossom(this.parentPosition[0], this.parentPosition[1], this.turtle.pos[0], this.turtle.pos[1]);
         // console.log(blossom)
         this.blossoms.push(blossom);
@@ -130,6 +132,7 @@ Branch.prototype.draw = function() {
     this.ctx.lineTo(this.turtle.pos[0], this.turtle.pos[1]);
     this.ctx.lineWidth = this.thickness;
     this.ctx.strokeStyle = this.color;
+    // this.ctx.lineCap = 'butt';
     // this.ctx.quadraticCurveTo(this.parentPosition[0], this.parentPosition[1]-Math.floor(Math.random()*10+1), this.turtle.pos[0], this.turtle.pos[1]);
     this.ctx.stroke();
 };
@@ -147,12 +150,17 @@ Blossom.prototype.draw = function() {
     this.ctx = c.getContext('2d');
     this.ctx.beginPath();
     rPoint = randomPoint(this.x1, this.y1, this.x2, this.y2);
-    this.ctx.arc(rPoint[0], rPoint[1], 6, 0, 2 * Math.PI, false);
-    this.ctx.fillStyle = '#ff849c';
-    this.ctx.fill();
-    this.ctx.lineWidth = 1;
-    this.ctx.strokeStyle = 'white';
+    var img = new Image();
+    img.src = 'tiny_sakura.png';
+    // this.ctx.moveTo(rPoint[0],rPoint[1]);
+    this.ctx.drawImage(img, rPoint[0],rPoint[1],11,11);
     this.ctx.stroke();
+    // this.ctx.arc(rPoint[0], rPoint[1], 6, 0, 2 * Math.PI, false);
+    // this.ctx.fillStyle = '#ff849c';
+    // this.ctx.fill();
+    // this.ctx.lineWidth = 1;
+    // this.ctx.strokeStyle = 'white';
+    // this.ctx.stroke();
 };
 
 var randomPoint = function(x1, y1, x2, y2) {
