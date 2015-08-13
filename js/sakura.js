@@ -13,7 +13,7 @@ function Sakura(node, canvas) {
     canvas.height = canvas.clientHeight;
     this.ctx = canvas.getContext('2d');
     this.node = node;
-    this.trunk = new Branch(0, 3.8, 1, '#49311C');
+    this.trunk = new Branch(0, 3.8, 1, '#554545');
     this.trunk.blossoms = [];
     this.tick = this.tick.bind(this);
     if (CURRENT_BRANCHES < MAX_BRANCHES) {
@@ -28,7 +28,6 @@ function Sakura(node, canvas) {
 Sakura.prototype.tick = function() {
     requestAnimationFrame(this.tick);
     this.trunk.tick();
-    // this.trunk.blossoms = [];
     this.trunk.draw();
 };
 
@@ -42,7 +41,7 @@ Sakura.prototype.debugPrint = function() {
 };
 
 Sakura.prototype.draw = function() {
-    // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 };
 
 function Branch(length, thickness, angle, color) {
@@ -65,22 +64,17 @@ function Branch(length, thickness, angle, color) {
 
 Branch.prototype.tick = function() {
     this.ticks += 1;
-    // console.log(this.blossoms);
     if (CURRENT_BRANCHES < MAX_BRANCHES) {
         this.length += Math.random();
         this.thickness += (Math.random() - 0.4);
         this.draw();
     }
-
     for (var a = this.children.length - 1; a >= 0; a--) {
         this.children[a].tick();
     }
-
     if (CURRENT_BRANCHES < MAX_BRANCHES && Math.random() < 0.05) {
-
-
         if (this.children.length < 2) {
-            var branch = new Branch(Math.floor((Math.random() * 100) + 10), Math.floor((Math.random() * 1) + 1), Math.floor((Math.random() * 31) + 1), '#49311C');
+            var branch = new Branch(Math.floor((Math.random() * 100) + 10), Math.floor((Math.random() * 1) + 1), Math.floor((Math.random() * 31) + 1), '#554545');
             this.children.push(branch);
         }
 
@@ -95,24 +89,15 @@ Branch.prototype.tick = function() {
             }
             this.children[i].turtle.fwd(this.length);
         }
-        if (branch) {
-            branch.draw();
-        }
     }
     this.draw();
-
-    if ( CURRENT_BRANCHES > 100 && this.blossoms.length < 4 && Math.random() < 0.09 && this.ticks < 80) {
+    if (CURRENT_BRANCHES > 100 && this.blossoms.length < 4 && Math.random() < 0.09 && this.ticks < 80) {
         var blossom = new Blossom(this.parentPosition[0], this.parentPosition[1], this.turtle.pos[0], this.turtle.pos[1]);
-        // console.log(blossom)
         this.blossoms.push(blossom);
         for (var b = 0; b < this.blossoms.length; b++) {
             this.blossoms[b].draw();
         }
     }
-
-
-
-
 };
 
 Branch.prototype.toString = function() {
@@ -132,8 +117,6 @@ Branch.prototype.draw = function() {
     this.ctx.lineTo(this.turtle.pos[0], this.turtle.pos[1]);
     this.ctx.lineWidth = this.thickness;
     this.ctx.strokeStyle = this.color;
-    // this.ctx.lineCap = 'butt';
-    // this.ctx.quadraticCurveTo(this.parentPosition[0], this.parentPosition[1]-Math.floor(Math.random()*10+1), this.turtle.pos[0], this.turtle.pos[1]);
     this.ctx.stroke();
 };
 
@@ -152,9 +135,9 @@ Blossom.prototype.draw = function() {
     rPoint = randomPoint(this.x1, this.y1, this.x2, this.y2);
     var img = new Image();
     img.src = 'tiny_sakura.png';
-    // this.ctx.moveTo(rPoint[0],rPoint[1]);
-    this.ctx.drawImage(img, rPoint[0],rPoint[1],11,11);
+    this.ctx.drawImage(img, rPoint[0], rPoint[1], 11, 11);
     this.ctx.stroke();
+    //In case you want to draw them instead of using an emoji
     // this.ctx.arc(rPoint[0], rPoint[1], 6, 0, 2 * Math.PI, false);
     // this.ctx.fillStyle = '#ff849c';
     // this.ctx.fill();
